@@ -1,0 +1,6 @@
+[
+  {"id":"S001","name":"AI配音","cost":1,"hours":1},
+  {"id":"S002","name":"标准视频剪辑","cost":2,"hours":2},
+  {"id":"S003","name":"高级视频剪辑","cost":4,"hours":4},
+  {"id":"S004","name":"简单图文制作","cost":1,"hours":1}
+]

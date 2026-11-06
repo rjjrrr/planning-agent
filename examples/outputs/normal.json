@@ -1,0 +1,11 @@
+{
+  "task_id": "example-normal",
+  "status": "completed",
+  "saved_plan_id": "plan_4ba01b32058b",
+  "estimated_cost": 12,
+  "estimated_hours": 8,
+  "actual_cost": 12,
+  "turn_count": 4,
+  "tool_call_count": 4,
+  "steps": {"search_materials":"success","generate_script":"success","estimate_cost":"success","save_plan":"success"}
+}

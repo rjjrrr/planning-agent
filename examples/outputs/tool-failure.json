@@ -1,0 +1,9 @@
+{
+  "task_id": "example-failure",
+  "status": "completed",
+  "saved_plan_id": "plan_4b88d946f348",
+  "estimated_cost": 12,
+  "tool_call_count": 5,
+  "first_tool_result": {"tool":"search_materials","ok":false,"error":"injected tool failure"},
+  "steps": {"search_materials":"success","generate_script":"success","estimate_cost":"success","save_plan":"success"}
+}

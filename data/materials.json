@@ -1,0 +1,7 @@
+[
+  {"id":"V001","name":"高清品牌视频","type":"video","cost":7,"hours":4},
+  {"id":"V002","name":"普通视频","type":"video","cost":3,"hours":1},
+  {"id":"V003","name":"免费图片","type":"image","cost":0,"hours":0.5},
+  {"id":"M001","name":"商用背景音乐","type":"music","cost":2,"hours":1},
+  {"id":"M002","name":"免费背景音乐","type":"music","cost":0,"hours":0.5}
+]

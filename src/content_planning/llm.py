@@ -28,7 +28,8 @@ class OpenAIPlanner:
     def __init__(self, model: str | None = None, base_url: str | None = None, api_key: str | None = None):
         self.client = ChatOpenAI(model=model or os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
                                  base_url=base_url or os.getenv("OPENAI_BASE_URL"),
-                                 api_key=api_key or os.getenv("OPENAI_API_KEY"), temperature=0)
+                                 api_key=api_key or os.getenv("OPENAI_API_KEY"), temperature=0,
+                                 max_tokens=int(os.getenv("LLM_MAX_TOKENS", "600")))
         self.bound = None
 
     def bind_tools(self, tools):

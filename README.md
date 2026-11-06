@@ -30,6 +30,8 @@ python -m content_planning.cli examples/inputs/tool-failure.json --mode mock --i
 python -m content_planning.cli examples/inputs/normal.json --mode live --runtime-dir runtime
 ```
 
+可选设置 `LLM_MAX_TOKENS=600` 限制单次模型输出，避免脚本生成过长拖慢循环。
+
 续跑（保持相同 `task_id`，可提高限制）：
 
 ```powershell

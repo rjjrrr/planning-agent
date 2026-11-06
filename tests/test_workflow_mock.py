@@ -43,6 +43,14 @@ class ScriptedPlanner:
                 "voiceover": "voice", "material_ids": material_ids, "production_method": requirements}
 
 
+class FailingPlanner:
+    def bind_tools(self, tools):
+        self.tools = tools
+
+    def decide(self, messages):
+        raise RuntimeError("controlled planner outage")
+
+
 def test_t1_normal_budget_and_deadline_saves_plan(tmp_path):
     result = run(tmp_path)
     assert result["status"] == "completed"
@@ -144,3 +152,15 @@ def test_trace_records_actual_tool_arguments_and_thread(tmp_path):
     assert rows[0]["thread_id"] == result["task_id"]
     assert rows[0]["selected_tool"] == "search_materials"
     assert rows[0]["arguments"] == {"query": "短视频营销素材"}
+
+
+def test_llm_exception_is_traced_without_state_corruption(tmp_path):
+    agent = ContentPlanningAgent(tmp_path, "mock", now=NOW, planner=FailingPlanner())
+    try:
+        result = agent.run({"task_id": "llm-failure", "topic": "new product", "budget": 10, "deadline": DEADLINE})
+    finally:
+        agent.close()
+    rows = [json.loads(line) for line in (tmp_path / "traces" / "llm-failure.jsonl").read_text(encoding="utf-8").splitlines()]
+    assert result["status"] == "incomplete" and "LLM" in result["error"]
+    assert rows[-1]["decision_summary"] == "LLM invocation failed"
+    assert result["steps"] == {"search_materials": "pending", "generate_script": "pending", "estimate_cost": "pending", "save_plan": "pending"}

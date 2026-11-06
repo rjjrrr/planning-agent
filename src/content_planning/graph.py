@@ -206,6 +206,10 @@ class ContentPlanningAgent:
             try:
                 message = self.planner.decide(state["messages"])
             except Exception as exc:
+                trace.write(task_id=task_id, thread_id=task_id, event="decision", turn=state.get("turn_count", 0),
+                            selected_tool=None, arguments={}, result_summary={}, step_status=None,
+                            estimated_cost=state.get("estimated_cost"), next_action="final",
+                            decision_summary="LLM invocation failed", error=f"LLM 决策失败: {exc}")
                 return {"status": "incomplete", "error": f"LLM 决策失败: {exc}"}
             calls = getattr(message, "tool_calls", []) or []
             if len(calls) > 1:

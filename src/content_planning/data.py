@@ -17,7 +17,10 @@ def load_catalog(data_dir: Path | None = None) -> tuple[dict, dict, dict]:
 
 
 def parse_deadline(value: str) -> datetime:
-    return datetime.fromisoformat(value.replace("Z", "+00:00"))
+    parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    if parsed.tzinfo is None:
+        raise ValueError("deadline 必须带时区，例如 +00:00 或 Z")
+    return parsed
 
 
 def estimate(material_ids: list[str], service_ids: list[str], budget: float, deadline: str, now: datetime, data_dir: Path | None = None) -> dict:

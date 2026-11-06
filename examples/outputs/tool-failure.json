@@ -1,7 +1,8 @@
 {
   "task_id": "example-failure",
   "status": "completed",
-  "saved_plan_id": "plan_4b88d946f348",
+  "saved_plan_id": "plan_03e9d260d58e",
+  "plan_hash": "faa4e56e595dae7cd444595a35e370bd09d9f6388d8b246d06006dc893903318",
   "estimated_cost": 12,
   "tool_call_count": 5,
   "first_tool_result": {"tool":"search_materials","ok":false,"error":"injected tool failure"},

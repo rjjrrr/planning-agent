@@ -38,6 +38,6 @@ class PlanRepository:
         with sqlite3.connect(self.path) as con:
             row = con.execute("SELECT plan_id FROM plans WHERE task_id=? AND plan_hash=?", (task_id, digest)).fetchone()
             if row:
-                return {"ok": True, "plan_id": row[0], "idempotent": True, "estimate": actual}
+                return {"ok": True, "plan_id": row[0], "plan_hash": digest, "idempotent": True, "estimate": actual}
             con.execute("INSERT INTO plans VALUES (?,?,?,?)", (plan_id, task_id, digest, canonical))
-        return {"ok": True, "plan_id": plan_id, "idempotent": False, "estimate": actual}
+        return {"ok": True, "plan_id": plan_id, "plan_hash": digest, "idempotent": False, "estimate": actual}

@@ -2,5 +2,6 @@
   "task_id": "example-missing",
   "status": "incomplete",
   "error": "缺少必填字段: budget",
-  "saved_plan_id": null
+  "saved_plan_id": null,
+  "plan_hash": null
 }

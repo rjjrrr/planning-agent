@@ -40,7 +40,7 @@ class OpenAIPlanner:
         return self.bound.invoke(messages)
 
     def generate_script(self, topic: str, material_ids: list[str], requirements: str) -> dict:
-        prompt = f'''为短视频营销生成严格 JSON，不能用未列出的素材。主题：{topic}\n允许素材 ID：{material_ids}\n要求：{requirements}\n返回字段 title, creative_brief, shots(数组，每项含visual和duration_seconds), voiceover, material_ids, production_method。'''
+        prompt = f'''为短视频营销生成严格 JSON，不能用未列出的素材。主题：{topic}\n允许素材 ID：{material_ids}\n要求：{requirements}\nproduction_method 必须明确包含制作服务 ID（S001/S002/S003/S004）；shots 的 visual 必须是 material_ids 中的 ID。\n返回字段 title, creative_brief, shots(数组，每项含visual和duration_seconds), voiceover, material_ids, production_method。'''
         response = self.client.invoke(prompt).content
         text = response if isinstance(response, str) else str(response)
         if "```" in text:
@@ -74,13 +74,16 @@ class MockPlanner:
             return _tool("search_materials", {"query": "短视频营销素材"}, ident)
         if last.get("tool") == "search_materials" and last.get("ok"):
             return _tool("generate_script", {"topic": _state_topic(messages), "material_ids": ["V001", "M001"], "requirements": "S001+S002"}, ident)
+        if last.get("tool") == "generate_script" and not last.get("ok"):
+            return _tool("generate_script", {"topic": _state_topic(messages), "material_ids": ["V001", "M001"], "requirements": "S001+S002"}, ident)
         if last.get("tool") == "generate_script" and last.get("ok"):
             services = _services_from_script(last["script"])
             return _tool("estimate_cost", {"material_ids": last["script"]["material_ids"], "service_ids": services}, ident)
         if last.get("tool") == "estimate_cost":
             if last.get("within_budget") and last.get("within_deadline"):
                 script = _latest_script(results)
-                return _tool("save_plan", {"plan": {"script": script, "material_ids": script["material_ids"], "service_ids": _services_from_script(script), "estimate": last, "plan_version": 1}}, ident)
+                version = sum(1 for result in results if result.get("tool") == "generate_script" and result.get("ok"))
+                return _tool("save_plan", {"plan": {"script": script, "material_ids": script["material_ids"], "service_ids": _services_from_script(script), "estimate": last, "plan_version": version}}, ident)
             # A deliberately visible adjustment: low-cost material then regenerate and re-estimate.
             if last.get("estimated_cost", 0) > 0 and not any(r.get("adjusted") for r in results):
                 return _tool("generate_script", {"topic": _state_topic(messages), "material_ids": ["V002", "M001"], "requirements": "S001+S002；adjusted"}, ident)

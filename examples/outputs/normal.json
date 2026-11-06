@@ -1,7 +1,8 @@
 {
   "task_id": "example-normal",
   "status": "completed",
-  "saved_plan_id": "plan_4ba01b32058b",
+  "saved_plan_id": "plan_e15c017df3e1",
+  "plan_hash": "43d0fba50fb169e78c74bf64418870386b99b3536a62edc6dddaf952af2be635",
   "estimated_cost": 12,
   "estimated_hours": 8,
   "actual_cost": 12,

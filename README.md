@@ -43,4 +43,4 @@ $env:PYTHONPATH = "src"
 pytest -q
 ```
 
-测试覆盖 T1–T8，见 `tests/test_workflow_mock.py`；单元硬校验见 `tests/test_tools.py`。离线示例位于 `examples/outputs/` 与 `examples/traces/`。已进行一次 GLM live 连通和工具调用验证，实际限制与结果见 `docs/03-evaluation.md`；示例 Trace 仍明确标为 Mock，不冒充 live 记录。
+测试覆盖 T1–T10，见 `tests/test_workflow_mock.py`；单元硬校验见 `tests/test_tools.py`。离线示例位于 `examples/outputs/` 与 `examples/traces/`。已进行一次 GLM live 连通和工具调用验证，实际限制与结果见 `docs/03-evaluation.md`；示例 Trace 仍明确标为 Mock，不冒充 live 记录。
